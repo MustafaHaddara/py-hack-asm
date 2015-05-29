@@ -9,7 +9,7 @@ class Command():
 
 class Parser():
 	def __init__(self, fname):
-		self.infile = open(fname, 'r')
+		self.infile = open(fname, 'r')  # Woohoo memory leaks
 		self.currentLine = ''
 
 
@@ -85,8 +85,5 @@ class Parser():
 		return jump
 
 
-
-
-
-	def end(self):
+	def __del__(self):
 		self.infile.close()

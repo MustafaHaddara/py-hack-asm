@@ -9,17 +9,6 @@ from SymbolTable import SymbolTable
 def main():
 	asmFileName = getFileName()
 	parser = Parser(asmFileName)
-	# code = Code()
-	# st = SymbolTable()
-
-	for line in ['a=b;c', 'b;c', 'a=b', 'a']:
-		parser.currentLine = line
-		try:
-			print parser.jump()
-		except SyntaxError as e:
-			print 'o'
-
-	parser.end()
 
 def getFileName():
 	if len(sys.argv) != 2:

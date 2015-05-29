@@ -32,14 +32,38 @@ In general, dest=comp;jump
 dest may be empty, in which case the = is omitted
 jump may be empty, in which case the ; is omitted
 The op code is 111a cccc ccdd djjj
+
 a is a flag for the type of instruction
 cccc cc is a code for computation
  full table in pdf
+ when a=0
+ 	opcode	result
+ 	101010  0
+ 	111111	1
+ 	111010	-1
+ 	001100	D
+ 	110000	A
+ 	001101	!D
+ 	110001	!A
+ 	001111	-D
+ 	110011	-A
+ 	011111	D+1
+ 	110111	A+1
+ 	001110	D-1
+ 	110010	A-1
+ 	000010	D+A
+ 	010011	D-A
+ 	000111	A-D
+ 	000000	D&A (logical AND)
+ 	010101	D|A (logical OR)
+ when a=1, replace all instances of 'A' with 'M'
+
 dd d is a code for which location to store the value
  first bit on to store to A
  second bit on to store to D
  third bit on to store to M --> recall, M = Memory[A]
 Any or all of these may be set
+
 jjj is a code for the condition on which to jump to InstructionMemory[A]
  first bit on to jump if output of computation is < 0
  second bit on to jump if output of computation is = 0
@@ -55,3 +79,5 @@ THAT points at RAM[4]
 
 Labels are defined with (labelname)
 Variables are automatically assigned a RAM location, starting at RAM[16]
+
+I/O handling also exists, we'll get to that later

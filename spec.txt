@@ -1,0 +1,57 @@
+hack is set up as follows:
+2 16-bit registers, A and D. 
+D is a data register
+A can be used for data or addresses
+
+Instruction memory stores instructions
+It has addresses of 15 bits and holds 16-bit words
+Instruction memory is read-only
+
+Data memory stores data (duh)
+Like instruction memory, it has 15-bit addresses and 16-bit words
+Data memory is writable
+
+Implicit things abound, oh joys
+Since data memory uses 15-bit addresses, we load an address into A
+And we alias the register M to refer to Memory[A]
+
+Similarly, we use A for direct memory access to instruction memory
+So if we wanted to jump to instruction memory 35,
+We load 35 into A, and then do a blank GOTO 
+This jumps to InstructionMemory[A]
+
+Finally, we have the special syntax @value
+value can be either a literal integer or a name
+This is a load instruction; it assigns value to A
+This syntax is called an A-instruction. 
+The op code is 0vvv vvvv vvvv vvvv
+Where vvv vvvv vvvv vvvv is the binary representation of value
+
+C-instructions do actual computation
+In general, dest=comp;jump
+dest may be empty, in which case the = is omitted
+jump may be empty, in which case the ; is omitted
+The op code is 111a cccc ccdd djjj
+a is a flag for the type of instruction
+cccc cc is a code for computation
+ full table in pdf
+dd d is a code for which location to store the value
+ first bit on to store to A
+ second bit on to store to D
+ third bit on to store to M --> recall, M = Memory[A]
+Any or all of these may be set
+jjj is a code for the condition on which to jump to InstructionMemory[A]
+ first bit on to jump if output of computation is < 0
+ second bit on to jump if output of computation is = 0
+ third bit on to jump if output of computation is > 0
+
+Some predefined symbols:
+Virtual registers R0 - R15 point to RAM[0] - RAM[15] 
+SP points at RAM[0]
+LCL points at RAM[1]
+ARG points at RAM[2]
+THIS points at RAM[3]
+THAT points at RAM[4]
+
+Labels are defined with (labelname)
+Variables are automatically assigned a RAM location, starting at RAM[16]
